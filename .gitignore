@@ -13,3 +13,5 @@ cdk.context.json
 
 parameter.ts
 local.settings.json
+
+data

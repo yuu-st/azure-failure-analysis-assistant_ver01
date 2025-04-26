@@ -18,13 +18,8 @@ export class AzureOpenAIClient {
     });
   }
 
-  private extractInstanceName(endpoint: string): string {
-    return endpoint.split("//")[1].split(".")[0];
-  }
-
   public async summarize(prompt: string, data: string, chunkSize: number = 1000, chunkOverlap: number = 200): Promise<string> {
     
-    // Split the input data
     const splitter = new RecursiveCharacterTextSplitter({
       chunkSize: chunkSize,
       chunkOverlap: chunkOverlap,
@@ -40,7 +35,9 @@ export class AzureOpenAIClient {
       type: "map_reduce",
     });
 
-    const result = await chain.invoke(documentsWithPrompt);
+    const result = await chain.invoke({
+      input_documents: documentsWithPrompt
+    });
     const summary = result.summary;
 
     return summary;

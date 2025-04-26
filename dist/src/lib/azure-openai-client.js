@@ -26,12 +26,8 @@ class AzureOpenAIClient {
             }
         });
     }
-    extractInstanceName(endpoint) {
-        return endpoint.split("//")[1].split(".")[0];
-    }
     summarize(prompt, data, chunkSize = 1000, chunkOverlap = 200) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Split the input data
             const splitter = new text_splitter_1.RecursiveCharacterTextSplitter({
                 chunkSize: chunkSize,
                 chunkOverlap: chunkOverlap,
@@ -43,7 +39,9 @@ class AzureOpenAIClient {
             const chain = yield (0, chains_1.loadSummarizationChain)(this.model, {
                 type: "map_reduce",
             });
-            const result = yield chain.invoke(documentsWithPrompt);
+            const result = yield chain.invoke({
+                input_documents: documentsWithPrompt
+            });
             const summary = result.summary;
             return summary;
         });
