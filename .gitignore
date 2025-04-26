@@ -1,0 +1,15 @@
+!jest.config.js
+node_modules
+.DS_Store
+!.versionrc.js
+pem
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+# CDK context
+cdk.context.json
+
+parameter.ts
+local.settings.json
