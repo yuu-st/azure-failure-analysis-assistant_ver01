@@ -11,12 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AzureOpenAIClient = void 0;
 const openai_1 = require("@langchain/openai");
+const prompts_1 = require("@langchain/core/prompts");
 const text_splitter_1 = require("langchain/text_splitter");
-const document_1 = require("langchain/document");
 const chains_1 = require("langchain/chains");
 class AzureOpenAIClient {
     constructor(azureOpenAIEndpoint, azureOpenAIkey, model = "gpt-3.5-turbo", temperature = 0.7, maxTokens = 1000) {
-        this.model = new openai_1.ChatOpenAI({
+        this.llm = new openai_1.ChatOpenAI({
             apiKey: azureOpenAIkey,
             model: model,
             temperature: temperature,
@@ -26,21 +26,24 @@ class AzureOpenAIClient {
             }
         });
     }
-    summarize(prompt, data, chunkSize = 1000, chunkOverlap = 200) {
+    analyze(prompt, data, chunkSize = 1000, chunkOverlap = 200) {
         return __awaiter(this, void 0, void 0, function* () {
+            const mapPrompt = prompts_1.PromptTemplate.fromTemplate(prompt);
+            const reducePrompt = prompts_1.PromptTemplate.fromTemplate("これらの要約をさらにまとめてください:\n\n{doc}");
+            const recursiveChain = yield (0, chains_1.loadSummarizationChain)(this.llm, {
+                type: "map_reduce",
+                combineMapPrompt: mapPrompt,
+                combinePrompt: reducePrompt,
+                verbose: true,
+            });
             const splitter = new text_splitter_1.RecursiveCharacterTextSplitter({
                 chunkSize: chunkSize,
                 chunkOverlap: chunkOverlap,
             });
-            const documents = yield splitter.createDocuments([data]);
-            const documentsWithPrompt = documents.map(doc => new document_1.Document({
-                pageContent: `${prompt}\n<log>\n${doc.pageContent}\n<log>`,
-            }));
-            const chain = yield (0, chains_1.loadSummarizationChain)(this.model, {
-                type: "map_reduce",
-            });
-            const result = yield chain.invoke({
-                input_documents: documentsWithPrompt
+            const docs = yield splitter.createDocuments([data]);
+            const result = yield recursiveChain.invoke({
+                input_documents: docs,
+                doc: "{doc}",
             });
             const summary = result.summary;
             return summary;

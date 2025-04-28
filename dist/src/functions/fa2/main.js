@@ -64,12 +64,12 @@ function httpTrigger(req, context) {
             const architectureDescription = "test";
             const prompt = new prompts_js_1.Prompt(lang, architectureDescription).createLogAnalysisPrompt();
             logger.info("Made prompt", { prompt: prompt });
-            // generate a response using the LLM
+            // analyze logs using the LLM
             const azureOpenAIEndpoint = (_d = process.env["AZURE_OPENAI_ENDPOINT"]) !== null && _d !== void 0 ? _d : "";
             const azureOpenAIKey = (_e = process.env["AZURE_OPENAI_KEY"]) !== null && _e !== void 0 ? _e : "";
             const azureOpenAIClient = new azure_openai_client_js_1.AzureOpenAIClient(azureOpenAIEndpoint, azureOpenAIKey);
-            const summary = yield azureOpenAIClient.summarize(prompt, blobData, 1000, 200);
-            logger.info("generate answer", { summary: summary });
+            const summary = yield azureOpenAIClient.analyze(prompt, blobData, 1000, 200);
+            logger.info("results", { summary: summary });
             if (!summary)
                 throw new Error("No response from LLM");
             // We assume that threshold is 3,500. And it's not accurate. Please modify this value when you met error. 
