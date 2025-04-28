@@ -9,8 +9,8 @@ export class AzureOpenAIClient {
 
   constructor(azureOpenAIEndpoint: string, azureOpenAIApikey: string, deploymentName: string = "gpt-35-turbo-16k", azureOpenAIApiVersion: string = "2024-12-01-preview", temperature: number = 0.7, maxTokens: number = 1000) {   
     this.llm = new ChatOpenAI({
-      apiKey: azureOpenAIApikey,
-      model: deploymentName,
+      azureOpenAIApiDeploymentName: deploymentName,
+      azureOpenAIApiVersion: azureOpenAIApiVersion,
       temperature: temperature,
       maxTokens: maxTokens,
     });
@@ -19,12 +19,12 @@ export class AzureOpenAIClient {
   public async analyze(prompt: string, data: string, chunkSize: number = 1000, chunkOverlap: number = 200): Promise<string> {
     
     const mapPrompt = PromptTemplate.fromTemplate(prompt);
-    const reducePrompt = PromptTemplate.fromTemplate("これらの要約をさらにまとめてください:\n\n{doc}");
+    //const reducePrompt = PromptTemplate.fromTemplate("これらの要約をさらにまとめてください:\n\n{doc}");
 
     const recursiveChain = await loadSummarizationChain(this.llm, {
       type: "map_reduce",
       combineMapPrompt: mapPrompt,
-      combinePrompt:reducePrompt,
+      //combinePrompt:reducePrompt,
       verbose: true,
     });
 
@@ -35,8 +35,7 @@ export class AzureOpenAIClient {
     const docs: Document[] = await splitter.createDocuments([data]);
 
     const result = await recursiveChain.invoke({ 
-      input_documents: docs,
-      doc: "{doc}",
+      input_documents: docs
     } );
     const summary = result.summary;
 

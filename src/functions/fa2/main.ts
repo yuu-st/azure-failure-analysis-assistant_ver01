@@ -71,7 +71,7 @@ export async function httpTrigger(req: HttpRequest, context: InvocationContext):
     
     // analyze logs using the LLM
     const azureOpenAIEndpoint: string = process.env["AZURE_OPENAI_ENDPOINT"] ?? "";
-    const azureOpenAIKey: string = process.env["AZURE_OPENAI_KEY"] ?? "";
+    const azureOpenAIKey: string = process.env["AZURE_OPENAI_API_KEY"] ?? "";
     const azureOpenAIClient = new AzureOpenAIClient(azureOpenAIEndpoint, azureOpenAIKey);
     const summary = await azureOpenAIClient.analyze(prompt, blobData, 1000, 200);
     logger.info("results", {summary: summary});

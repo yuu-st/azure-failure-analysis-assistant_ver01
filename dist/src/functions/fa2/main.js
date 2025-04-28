@@ -66,7 +66,7 @@ function httpTrigger(req, context) {
             logger.info("Made prompt", { prompt: prompt });
             // analyze logs using the LLM
             const azureOpenAIEndpoint = (_d = process.env["AZURE_OPENAI_ENDPOINT"]) !== null && _d !== void 0 ? _d : "";
-            const azureOpenAIKey = (_e = process.env["AZURE_OPENAI_KEY"]) !== null && _e !== void 0 ? _e : "";
+            const azureOpenAIKey = (_e = process.env["AZURE_OPENAI_API_KEY"]) !== null && _e !== void 0 ? _e : "";
             const azureOpenAIClient = new azure_openai_client_js_1.AzureOpenAIClient(azureOpenAIEndpoint, azureOpenAIKey);
             const summary = yield azureOpenAIClient.analyze(prompt, blobData, 1000, 200);
             logger.info("results", { summary: summary });

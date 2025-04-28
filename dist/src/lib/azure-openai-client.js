@@ -17,8 +17,8 @@ const chains_1 = require("langchain/chains");
 class AzureOpenAIClient {
     constructor(azureOpenAIEndpoint, azureOpenAIApikey, deploymentName = "gpt-35-turbo-16k", azureOpenAIApiVersion = "2024-12-01-preview", temperature = 0.7, maxTokens = 1000) {
         this.llm = new openai_1.ChatOpenAI({
-            apiKey: azureOpenAIApikey,
-            model: deploymentName,
+            azureOpenAIApiDeploymentName: deploymentName,
+            azureOpenAIApiVersion: azureOpenAIApiVersion,
             temperature: temperature,
             maxTokens: maxTokens,
         });
@@ -26,11 +26,11 @@ class AzureOpenAIClient {
     analyze(prompt, data, chunkSize = 1000, chunkOverlap = 200) {
         return __awaiter(this, void 0, void 0, function* () {
             const mapPrompt = prompts_1.PromptTemplate.fromTemplate(prompt);
-            const reducePrompt = prompts_1.PromptTemplate.fromTemplate("これらの要約をさらにまとめてください:\n\n{doc}");
+            //const reducePrompt = PromptTemplate.fromTemplate("これらの要約をさらにまとめてください:\n\n{doc}");
             const recursiveChain = yield (0, chains_1.loadSummarizationChain)(this.llm, {
                 type: "map_reduce",
                 combineMapPrompt: mapPrompt,
-                combinePrompt: reducePrompt,
+                //combinePrompt:reducePrompt,
                 verbose: true,
             });
             const splitter = new text_splitter_1.RecursiveCharacterTextSplitter({
@@ -39,8 +39,7 @@ class AzureOpenAIClient {
             });
             const docs = yield splitter.createDocuments([data]);
             const result = yield recursiveChain.invoke({
-                input_documents: docs,
-                doc: "{doc}",
+                input_documents: docs
             });
             const summary = result.summary;
             return summary;
