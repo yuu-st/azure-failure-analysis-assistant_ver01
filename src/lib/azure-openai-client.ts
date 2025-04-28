@@ -7,15 +7,12 @@ import { Document } from "langchain/document";
 export class AzureOpenAIClient {
   private llm: ChatOpenAI;
 
-  constructor(azureOpenAIEndpoint: string, azureOpenAIkey: string, model: string = "gpt-3.5-turbo", temperature: number = 0.7, maxTokens: number = 1000) {   
+  constructor(azureOpenAIEndpoint: string, azureOpenAIApikey: string, deploymentName: string = "gpt-35-turbo-16k", azureOpenAIApiVersion: string = "2024-12-01-preview", temperature: number = 0.7, maxTokens: number = 1000) {   
     this.llm = new ChatOpenAI({
-      apiKey: azureOpenAIkey,
-      model: model,
+      apiKey: azureOpenAIApikey,
+      model: deploymentName,
       temperature: temperature,
       maxTokens: maxTokens,
-      configuration: { 
-        baseURL: azureOpenAIEndpoint 
-      }
     });
   }
 

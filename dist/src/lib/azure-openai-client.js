@@ -15,15 +15,12 @@ const prompts_1 = require("@langchain/core/prompts");
 const text_splitter_1 = require("langchain/text_splitter");
 const chains_1 = require("langchain/chains");
 class AzureOpenAIClient {
-    constructor(azureOpenAIEndpoint, azureOpenAIkey, model = "gpt-3.5-turbo", temperature = 0.7, maxTokens = 1000) {
+    constructor(azureOpenAIEndpoint, azureOpenAIApikey, deploymentName = "gpt-35-turbo-16k", azureOpenAIApiVersion = "2024-12-01-preview", temperature = 0.7, maxTokens = 1000) {
         this.llm = new openai_1.ChatOpenAI({
-            apiKey: azureOpenAIkey,
-            model: model,
+            apiKey: azureOpenAIApikey,
+            model: deploymentName,
             temperature: temperature,
             maxTokens: maxTokens,
-            configuration: {
-                baseURL: azureOpenAIEndpoint
-            }
         });
     }
     analyze(prompt, data, chunkSize = 1000, chunkOverlap = 200) {
