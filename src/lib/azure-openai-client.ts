@@ -19,12 +19,12 @@ export class AzureOpenAIClient {
   public async analyze(prompt: string, data: string, chunkSize: number = 1000, chunkOverlap: number = 200): Promise<string> {
     
     const mapPrompt = PromptTemplate.fromTemplate(prompt);
-    //const reducePrompt = PromptTemplate.fromTemplate("これらの要約をさらにまとめてください:\n\n{doc}");
+    const reducePrompt = PromptTemplate.fromTemplate("これらの要約をさらにまとめてください:\n\n{doc}");
 
     const recursiveChain = await loadSummarizationChain(this.llm, {
       type: "map_reduce",
       combineMapPrompt: mapPrompt,
-      //combinePrompt:reducePrompt,
+      combinePrompt:reducePrompt,
       verbose: true,
     });
 
@@ -33,10 +33,12 @@ export class AzureOpenAIClient {
       chunkOverlap: chunkOverlap,
     });
     const docs: Document[] = await splitter.createDocuments([data]);
+    console.log(`docs:${docs}`);
 
     const result = await recursiveChain.invoke({ 
-      input_documents: docs
-    } );
+      input_documents: docs,
+      doc: "{doc}"
+    });
     const summary = result.summary;
 
     return summary;

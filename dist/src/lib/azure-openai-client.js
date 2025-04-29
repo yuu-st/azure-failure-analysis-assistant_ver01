@@ -26,11 +26,11 @@ class AzureOpenAIClient {
     analyze(prompt, data, chunkSize = 1000, chunkOverlap = 200) {
         return __awaiter(this, void 0, void 0, function* () {
             const mapPrompt = prompts_1.PromptTemplate.fromTemplate(prompt);
-            //const reducePrompt = PromptTemplate.fromTemplate("これらの要約をさらにまとめてください:\n\n{doc}");
+            const reducePrompt = prompts_1.PromptTemplate.fromTemplate("これらの要約をさらにまとめてください:\n\n{doc}");
             const recursiveChain = yield (0, chains_1.loadSummarizationChain)(this.llm, {
                 type: "map_reduce",
                 combineMapPrompt: mapPrompt,
-                //combinePrompt:reducePrompt,
+                combinePrompt: reducePrompt,
                 verbose: true,
             });
             const splitter = new text_splitter_1.RecursiveCharacterTextSplitter({
@@ -38,8 +38,10 @@ class AzureOpenAIClient {
                 chunkOverlap: chunkOverlap,
             });
             const docs = yield splitter.createDocuments([data]);
+            console.log(`docs:${docs}`);
             const result = yield recursiveChain.invoke({
-                input_documents: docs
+                input_documents: docs,
+                doc: "{doc}"
             });
             const summary = result.summary;
             return summary;
