@@ -37,10 +37,10 @@ export class AzureOpenAIClient {
 
     const result = await recursiveChain.invoke({ 
       input_documents: docs,
-      doc: "{doc}"
+      doc: docs.map(doc => doc.pageContent).join("\n")
     });
-    const summary = result.summary;
+    const text = result.text;
 
-    return summary;
+    return text;
   }
 }

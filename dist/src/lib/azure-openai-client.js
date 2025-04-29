@@ -41,7 +41,7 @@ class AzureOpenAIClient {
             console.log(`docs:${docs}`);
             const result = yield recursiveChain.invoke({
                 input_documents: docs,
-                doc: "{doc}"
+                doc: docs.map(doc => doc.pageContent).join("\n")
             });
             const summary = result.summary;
             return summary;
