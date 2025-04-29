@@ -25,7 +25,7 @@ export class AzureOpenAIClient {
       type: "map_reduce",
       combineMapPrompt: mapPrompt,
       combinePrompt:reducePrompt,
-      verbose: true,
+      //verbose: true,
     });
 
     const splitter = new RecursiveCharacterTextSplitter({
@@ -33,7 +33,6 @@ export class AzureOpenAIClient {
       chunkOverlap: chunkOverlap,
     });
     const docs: Document[] = await splitter.createDocuments([data]);
-    console.log(`docs:${docs}`);
 
     const result = await recursiveChain.invoke({ 
       input_documents: docs,

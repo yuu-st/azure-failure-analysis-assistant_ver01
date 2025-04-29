@@ -31,20 +31,19 @@ class AzureOpenAIClient {
                 type: "map_reduce",
                 combineMapPrompt: mapPrompt,
                 combinePrompt: reducePrompt,
-                verbose: true,
+                //verbose: true,
             });
             const splitter = new text_splitter_1.RecursiveCharacterTextSplitter({
                 chunkSize: chunkSize,
                 chunkOverlap: chunkOverlap,
             });
             const docs = yield splitter.createDocuments([data]);
-            console.log(`docs:${docs}`);
             const result = yield recursiveChain.invoke({
                 input_documents: docs,
                 doc: docs.map(doc => doc.pageContent).join("\n")
             });
-            const summary = result.summary;
-            return summary;
+            const text = result.text;
+            return text;
         });
     }
 }
