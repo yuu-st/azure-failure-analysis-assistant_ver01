@@ -15,19 +15,39 @@ export class Prompt {
     this.architectureDescription = architectureDescription;
   }
 
-  public createLogAnalysisPrompt() {
+  public createBlobMapPrompt() {
     let prompt: string = "";
     
     if(this.language === "ja"){
-      prompt = 
-      `あなたは優秀なシステムエンジニアでシステムの運用保守をしています。
-      現在、運用管理者から障害が発生したとの連絡がありました。
-      あなたは、以下のログを確認し、発生した事象の根本原因を推測してください。
-      根本原因を記述する際に、参考にしたログを記載し、運用管理者が実際のログを確認しやすくしてください。
-      必ず日本語で回答してください。：\n\n{doc}`;
-    }
+      const prompt = `
+      あなたは優秀なシステムエンジニアです。
+      以下のログを確認し、エラーまたは異常な動作の兆候が含まれているか判断してください。
+      異常がある場合は、それが何であるかを明確に書いてください。
+
+      以下のログ:
+      {input}
+      `;
     return prompt;
-  };
+    }
+  }
+
+  public createBlobReducePrompt() {
+    let prompt: string = "";
+    
+    if(this.language === "ja"){
+      const prompt = `
+      以下はシステムログの要約です。
+      これらの内容を元に、全体を通して障害の根本原因を推測してください。
+      また、どのログから推測したのかを明記してください。
+      ログにエラーが見当たらない場合は、「異常なし」とだけ出力してください。
+
+      要約されたログ:
+      {input}
+      `;
+      return prompt;
+    }
+  }
+
 
   /*
   public createFailureAnalysisPrompt(

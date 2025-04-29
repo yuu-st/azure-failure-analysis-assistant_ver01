@@ -66,14 +66,14 @@ export async function httpTrigger(req: HttpRequest, context: InvocationContext):
     // generate a prompt
     const lang: string = "ja";
     const architectureDescription: string = "test";
-    const prompt = new Prompt(lang, architectureDescription).createLogAnalysisPrompt();
-    logger.info("Made prompt", {prompt: prompt});
+    const prompt = new Prompt(lang, architectureDescription);
+    const blobMapPrompt = prompt.createBlobMapPrompt();
+    const blobReducePrompt = prompt.createBlobMapPrompt();
+    logger.info("Made prompt", {blobMapPrompt: blobMapPrompt, blobReducePrompt: blobReducePrompt});
     
     // analyze logs using the LLM
-    const azureOpenAIEndpoint: string = process.env["AZURE_OPENAI_ENDPOINT"] ?? "";
-    const azureOpenAIKey: string = process.env["AZURE_OPENAI_API_KEY"] ?? "";
-    const azureOpenAIClient = new AzureOpenAIClient(azureOpenAIEndpoint, azureOpenAIKey);
-    const summary = await azureOpenAIClient.analyze(prompt, blobData, 1000, 200);
+    const azureOpenAIClient = new AzureOpenAIClient();
+    const summary = await azureOpenAIClient.analyze(blobMapPrompt, blobReducePrompt, blobData, 2500, 250);
     logger.info("results", {summary: summary});
     
     if(!summary) throw new Error("No response from LLM");

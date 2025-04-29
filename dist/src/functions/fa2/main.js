@@ -16,7 +16,7 @@ const logger_js_1 = require("../../lib/logger.js");
 const azure_storage_blob_client_js_1 = require("../../lib/azure-storage-blob-client.js");
 const azure_openai_client_js_1 = require("../../lib/azure-openai-client.js");
 function httpTrigger(req, context) {
-    var _a, _b, _c, _d, _e;
+    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
         const logger = new logger_js_1.Logger(context, "AzureFailureAnalysisAssistant");
         //const reqBody = await req.json() as RequestBoby;
@@ -62,13 +62,13 @@ function httpTrigger(req, context) {
             // generate a prompt
             const lang = "ja";
             const architectureDescription = "test";
-            const prompt = new prompts_js_1.Prompt(lang, architectureDescription).createLogAnalysisPrompt();
-            logger.info("Made prompt", { prompt: prompt });
+            const prompt = new prompts_js_1.Prompt(lang, architectureDescription);
+            const blobMapPrompt = prompt.createBlobMapPrompt();
+            const blobReducePrompt = prompt.createBlobMapPrompt();
+            logger.info("Made prompt", { blobMapPrompt: blobMapPrompt, blobReducePrompt: blobReducePrompt });
             // analyze logs using the LLM
-            const azureOpenAIEndpoint = (_d = process.env["AZURE_OPENAI_ENDPOINT"]) !== null && _d !== void 0 ? _d : "";
-            const azureOpenAIKey = (_e = process.env["AZURE_OPENAI_API_KEY"]) !== null && _e !== void 0 ? _e : "";
-            const azureOpenAIClient = new azure_openai_client_js_1.AzureOpenAIClient(azureOpenAIEndpoint, azureOpenAIKey);
-            const summary = yield azureOpenAIClient.analyze(prompt, blobData, 1000, 200);
+            const azureOpenAIClient = new azure_openai_client_js_1.AzureOpenAIClient();
+            const summary = yield azureOpenAIClient.analyze(blobMapPrompt, blobReducePrompt, blobData, 2500, 250);
             logger.info("results", { summary: summary });
             if (!summary)
                 throw new Error("No response from LLM");
