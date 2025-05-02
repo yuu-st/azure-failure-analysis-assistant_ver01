@@ -73,10 +73,10 @@ export async function httpTrigger(req: HttpRequest, context: InvocationContext):
     
     // analyze logs using the LLM
     const azureOpenAIClient = new AzureOpenAIClient();
-    const summary = await azureOpenAIClient.analyze(blobMapPrompt, blobReducePrompt, blobData, 2500, 250);
-    logger.info("results", {summary: summary});
+    const result = await azureOpenAIClient.analyze(blobMapPrompt, blobReducePrompt, blobData, 2000, 200);
+    logger.info("results", {result: result});
     
-    if(!summary) throw new Error("No response from LLM");
+    if(!result) throw new Error("No response from LLM");
 
     // We assume that threshold is 3,500. And it's not accurate. Please modify this value when you met error. 
     //if(answer.length < 3500){
@@ -96,8 +96,10 @@ export async function httpTrigger(req: HttpRequest, context: InvocationContext):
 
     //logger.info('Success to get answer:', answer);
 
-
-    /* ****** */
+    return {
+      status: 400,
+      body: result
+    };
 
   } catch (error) {
     logger.error("Something happened", error as Error);
@@ -127,10 +129,6 @@ export async function httpTrigger(req: HttpRequest, context: InvocationContext):
     }
     */
   }
-  return {
-    status: 400,
-    body: "Processed"
-  };
 };
 
 app.http('httpTrigger', {

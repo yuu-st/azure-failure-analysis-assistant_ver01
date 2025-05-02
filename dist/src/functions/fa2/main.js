@@ -68,9 +68,9 @@ function httpTrigger(req, context) {
             logger.info("Made prompt", { blobMapPrompt: blobMapPrompt, blobReducePrompt: blobReducePrompt });
             // analyze logs using the LLM
             const azureOpenAIClient = new azure_openai_client_js_1.AzureOpenAIClient();
-            const summary = yield azureOpenAIClient.analyze(blobMapPrompt, blobReducePrompt, blobData, 2500, 250);
-            logger.info("results", { summary: summary });
-            if (!summary)
+            const result = yield azureOpenAIClient.analyze(blobMapPrompt, blobReducePrompt, blobData, 2000, 200);
+            logger.info("results", { summary: result });
+            if (!result)
                 throw new Error("No response from LLM");
             // We assume that threshold is 3,500. And it's not accurate. Please modify this value when you met error. 
             //if(answer.length < 3500){
@@ -88,7 +88,10 @@ function httpTrigger(req, context) {
             //await messageClient.sendMarkdownSnippet("answer.md", answer, channelId, threadTs)
             //}
             //logger.info('Success to get answer:', answer);
-            /* ****** */
+            return {
+                status: 400,
+                body: result
+            };
         }
         catch (error) {
             logger.error("Something happened", error);
@@ -118,10 +121,6 @@ function httpTrigger(req, context) {
             }
             */
         }
-        return {
-            status: 400,
-            body: "Processed"
-        };
     });
 }
 exports.httpTrigger = httpTrigger;

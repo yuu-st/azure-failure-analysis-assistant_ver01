@@ -8,7 +8,7 @@ export class Prompt {
   architectureDescription: string;
 
   constructor(
-    language: string = "en",
+    language: string = "ja",
     architectureDescription: string
   ){
     this.language = language;
@@ -21,7 +21,8 @@ export class Prompt {
     if(this.language === "ja"){
       const prompt = `
       あなたは優秀なシステムエンジニアです。
-      以下のログを確認し、エラーまたは異常な動作の兆候が含まれているか判断してください。
+      現在、運用管理者から${this.architectureDescription}という事象が発生したとの連絡がありました。
+      以下のログを確認し、エラー（ERROR）または異常な動作の兆候が含まれているか判断してください。
       異常がある場合は、それが何であるかを明確に書いてください。
 
       以下のログ:
