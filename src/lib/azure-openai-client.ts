@@ -61,12 +61,12 @@ export class AzureOpenAIClient {
   public async reduceProcess(reducePrompt: string, mappedDocuments: Document[]): Promise<string> {
 
     try {
-      const chatPromptTemplate = ChatPromptTemplate.fromTemplate(reducePrompt);
+      const reducePromptTemplate = ChatPromptTemplate.fromTemplate(reducePrompt);
 
-      const reduceChain = chatPromptTemplate.pipe(this.llm);
+      const reduceChain = reducePromptTemplate.pipe(this.llm);
 
       const reduceResult = await reduceChain.invoke({
-        input_documents: mappedDocuments
+        input: mappedDocuments
       });
 
       return reduceResult.text;

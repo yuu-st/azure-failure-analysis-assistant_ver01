@@ -15,7 +15,7 @@ const text_splitter_1 = require("langchain/text_splitter");
 const document_1 = require("langchain/document");
 const prompts_1 = require("@langchain/core/prompts");
 class AzureOpenAIClient {
-    constructor(deploymentName = "gpt-35-turbo-16k", azureOpenAIApiVersion = "2024-12-01-preview", temperature = 0.7, maxTokens = 4096, logger) {
+    constructor(deploymentName = "gpt-35-turbo-16k", azureOpenAIApiVersion = "2024-12-01-preview", temperature = 0.7, maxTokens = 3000, logger) {
         this.llm = new openai_1.ChatOpenAI({
             azureOpenAIApiDeploymentName: deploymentName,
             azureOpenAIApiVersion: azureOpenAIApiVersion,
@@ -27,12 +27,9 @@ class AzureOpenAIClient {
     analyze(mapPrompt, reducePrompt, data, chunkSize = 2000, chunkOverlap = 100) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                this.logger.info("check1");
                 const mappedDocuments = yield this.mapProcess(mapPrompt, data, chunkSize, chunkOverlap);
-                this.logger.info("check2");
                 this.logger.info("mappedDocuments", { "mappedDocuments": mappedDocuments });
                 const finalResult = yield this.reduceProcess(reducePrompt, mappedDocuments);
-                this.logger.info("check3");
                 return finalResult;
             }
             catch (err) {
@@ -65,10 +62,10 @@ class AzureOpenAIClient {
     reduceProcess(reducePrompt, mappedDocuments) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const chatPromptTemplate = prompts_1.ChatPromptTemplate.fromTemplate(reducePrompt);
-                const reduceChain = chatPromptTemplate.pipe(this.llm);
+                const reducePromptTemplate = prompts_1.ChatPromptTemplate.fromTemplate(reducePrompt);
+                const reduceChain = reducePromptTemplate.pipe(this.llm);
                 const reduceResult = yield reduceChain.invoke({
-                    input_documents: mappedDocuments
+                    input: mappedDocuments
                 });
                 return reduceResult.text;
             }

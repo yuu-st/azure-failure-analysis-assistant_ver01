@@ -75,7 +75,7 @@ export async function httpTrigger(req: HttpRequest, context: InvocationContext):
     const deploymentName: string = "gpt-35-turbo-16k";
     const azureOpenAIApiVersion: string = "2024-12-01-preview";
     const temperature: number = 0.7;
-    const maxTokens: number = 3000;
+    const maxTokens: number = 4000;
     const azureOpenAIClient = new AzureOpenAIClient(deploymentName, azureOpenAIApiVersion,temperature,  maxTokens, logger);
     const result = await azureOpenAIClient.analyze(blobMapPrompt, blobReducePrompt, blobData, 2000, 100);
     logger.info("results", {result: result});

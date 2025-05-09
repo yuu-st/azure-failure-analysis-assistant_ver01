@@ -70,7 +70,7 @@ function httpTrigger(req, context) {
             const deploymentName = "gpt-35-turbo-16k";
             const azureOpenAIApiVersion = "2024-12-01-preview";
             const temperature = 0.7;
-            const maxTokens = 3000;
+            const maxTokens = 4000;
             const azureOpenAIClient = new azure_openai_client_js_1.AzureOpenAIClient(deploymentName, azureOpenAIApiVersion, temperature, maxTokens, logger);
             const result = yield azureOpenAIClient.analyze(blobMapPrompt, blobReducePrompt, blobData, 2000, 100);
             logger.info("results", { result: result });
