@@ -65,15 +65,19 @@ export async function httpTrigger(req: HttpRequest, context: InvocationContext):
 
     // generate a prompt
     const lang: string = "ja";
-    const architectureDescription: string = "test";
+    const architectureDescription: string = "料金改定でシステムから新しいコンボコード登録中にエラーが発生";
     const prompt = new Prompt(lang, architectureDescription);
     const blobMapPrompt = prompt.createBlobMapPrompt();
-    const blobReducePrompt = prompt.createBlobMapPrompt();
+    const blobReducePrompt = prompt.createBlobReducePrompt();
     logger.info("Made prompt", {blobMapPrompt: blobMapPrompt, blobReducePrompt: blobReducePrompt});
     
     // analyze logs using the LLM
-    const azureOpenAIClient = new AzureOpenAIClient();
-    const result = await azureOpenAIClient.analyze(blobMapPrompt, blobReducePrompt, blobData, 2000, 200);
+    const deploymentName: string = "gpt-35-turbo-16k";
+    const azureOpenAIApiVersion: string = "2024-12-01-preview";
+    const temperature: number = 0.7;
+    const maxTokens: number = 3000;
+    const azureOpenAIClient = new AzureOpenAIClient(deploymentName, azureOpenAIApiVersion,temperature,  maxTokens, logger);
+    const result = await azureOpenAIClient.analyze(blobMapPrompt, blobReducePrompt, blobData, 2000, 100);
     logger.info("results", {result: result});
     
     if(!result) throw new Error("No response from LLM");

@@ -61,15 +61,19 @@ function httpTrigger(req, context) {
             logger.info("retrieve files", { "blobData": blobData });
             // generate a prompt
             const lang = "ja";
-            const architectureDescription = "test";
+            const architectureDescription = "料金改定でシステムから新しいコンボコード登録中にエラーが発生";
             const prompt = new prompts_js_1.Prompt(lang, architectureDescription);
             const blobMapPrompt = prompt.createBlobMapPrompt();
-            const blobReducePrompt = prompt.createBlobMapPrompt();
+            const blobReducePrompt = prompt.createBlobReducePrompt();
             logger.info("Made prompt", { blobMapPrompt: blobMapPrompt, blobReducePrompt: blobReducePrompt });
             // analyze logs using the LLM
-            const azureOpenAIClient = new azure_openai_client_js_1.AzureOpenAIClient();
-            const result = yield azureOpenAIClient.analyze(blobMapPrompt, blobReducePrompt, blobData, 2000, 200);
-            logger.info("results", { summary: result });
+            const deploymentName = "gpt-35-turbo-16k";
+            const azureOpenAIApiVersion = "2024-12-01-preview";
+            const temperature = 0.7;
+            const maxTokens = 3000;
+            const azureOpenAIClient = new azure_openai_client_js_1.AzureOpenAIClient(deploymentName, azureOpenAIApiVersion, temperature, maxTokens, logger);
+            const result = yield azureOpenAIClient.analyze(blobMapPrompt, blobReducePrompt, blobData, 2000, 100);
+            logger.info("results", { result: result });
             if (!result)
                 throw new Error("No response from LLM");
             // We assume that threshold is 3,500. And it's not accurate. Please modify this value when you met error. 

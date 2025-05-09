@@ -2,34 +2,32 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Prompt = void 0;
 class Prompt {
-    constructor(language = "en", architectureDescription) {
+    constructor(language = "ja", architectureDescription) {
         this.language = language;
         this.architectureDescription = architectureDescription;
     }
     createBlobMapPrompt() {
-        let prompt = "";
         if (this.language === "ja") {
             const prompt = `
-      あなたは優秀なシステムエンジニアです。
-      以下のログを確認し、エラー（ERROR）または異常な動作の兆候が含まれているか判断してください。
-      異常がある場合は、それが何であるかを明確に書いてください。
+      あなたは優秀なシステムエンジニアとして、運用業務を行っています。
+      以下のログを確認し、エラー（ERROR）や異常な動作の兆候を含むログを抽出してください。
 
-      以下のログ:
+      以下はログ:
       {input}
       `;
             return prompt;
         }
     }
     createBlobReducePrompt() {
-        let prompt = "";
         if (this.language === "ja") {
             const prompt = `
-      以下はシステムログの要約です。
-      これらの内容を元に、全体を通して障害の根本原因を推測してください。
-      また、どのログから推測したのかを明記してください。
-      ログにエラーが見当たらない場合は、「異常なし」とだけ出力してください。
+      あなたは優秀なシステムエンジニアであり、システムの運用業務を担当しています。
+      以下は、本障害の原因に関連する可能性が高いシステムログです。
+      これらのログをもとに、障害の根本原因を日本語で推測してください。
+      また、根本原因の推測に使用した具体的なログを示してください。
+      もし、ログにエラーが見当たらない場合は、「異常なし」とだけ記入してください。
 
-      要約されたログ:
+      以下はログ:
       {input}
       `;
             return prompt;
