@@ -1,7 +1,6 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { Document } from "langchain/document";
-import { StuffDocumentsChain } from "langchain/chains";
 import { Logger } from "./logger.js";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
@@ -23,13 +22,9 @@ export class AzureOpenAIClient {
   public async analyze(mapPrompt: string, reducePrompt: string, data: string, chunkSize: number = 2000, chunkOverlap: number = 100): Promise<string> {
 
     try {
-      this.logger.info("check1");
       const mappedDocuments = await this.mapProcess(mapPrompt, data, chunkSize, chunkOverlap);
-      this.logger.info("check2");
       this.logger.info("mappedDocuments", { "mappedDocuments": mappedDocuments });
       const finalResult = await this.reduceProcess(reducePrompt, mappedDocuments);
-      this.logger.info("check3");
-
 
       return finalResult;
     } catch (err) {
