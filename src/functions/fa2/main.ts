@@ -54,7 +54,7 @@ export async function httpTrigger(req: HttpRequest, context: InvocationContext):
   
 
   try {
-    // Process to retrieve files from Azure Storage Blob
+    // retrieve files from Azure Storage Blob
     const storageAccountName : string = process.env["STORAGE_ACCOUNT_NAME"] ?? "";
     const containerName : string = process.env["ROW_CONTAINER_NAME"] ?? "";
     const azureStrageConnectionString : string = process.env["AZURE_STORAGE_CONNECTION_STRING"] ?? "";
@@ -107,6 +107,11 @@ export async function httpTrigger(req: HttpRequest, context: InvocationContext):
 
   } catch (error) {
     logger.error("Something happened", error as Error);
+
+    return {
+      body: error
+    };
+
     // Send the form to retry when error was occured.
     /*
     if(channelId && threadTs){
