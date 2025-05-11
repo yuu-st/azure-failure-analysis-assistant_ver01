@@ -1,0 +1,50 @@
+2025-05-02 11:00:00 INFO Completed scheduled task
+2025-05-02 11:00:03 INFO Connected to Oracle DB
+2025-05-02 11:00:05 INFO Completed scheduled task
+2025-05-02 11:00:10 INFO Started batch process
+2025-05-02 11:00:13 INFO Started batch process
+2025-05-02 11:00:17 DEBUG Parsing complex JSON input
+2025-05-02 11:00:22 DEBUG Reading 10,000 rows from result set
+2025-05-02 11:00:26 DEBUG Executing SQL on large_table
+2025-05-02 11:00:31 INFO Started batch process
+2025-05-02 11:00:33 DEBUG Executing SQL on large_table
+2025-05-02 11:00:37 DEBUG Parsing complex JSON input
+2025-05-02 11:00:38 INFO Completed scheduled task
+2025-05-02 11:00:42 DEBUG Reading 10,000 rows from result set
+2025-05-02 11:00:47 DEBUG Reading 10,000 rows from result set
+2025-05-02 11:00:51 INFO Started batch process
+2025-05-02 11:00:55 INFO Started batch process
+2025-05-02 11:00:58 DEBUG Executing SQL on large_table
+2025-05-02 11:00:59 INFO User session started
+2025-05-02 11:01:01 DEBUG Parsing complex JSON input
+2025-05-02 11:01:02 DEBUG Generating session report
+2025-05-02 11:01:05 DEBUG Parsing complex JSON input
+2025-05-02 11:01:08 DEBUG Reading 10,000 rows from result set
+2025-05-02 11:01:12 DEBUG Executing SQL on large_table
+2025-05-02 11:01:15 INFO Connected to Oracle DB
+2025-05-02 11:01:18 INFO Connected to Oracle DB
+2025-05-02 11:01:22 WARN Increased active session count
+2025-05-02 11:01:26 WARN Increased active session count
+2025-05-02 11:01:28 WARN Increased active session count
+2025-05-02 11:01:30 DEBUG Generating session report
+2025-05-02 11:01:31 WARN Detected slow-running SQL query
+2025-05-02 11:01:35 DEBUG Parsing complex JSON input
+2025-05-02 11:01:40 DEBUG Executing SQL on large_table
+2025-05-02 11:01:43 WARN Detected slow-running SQL query
+2025-05-02 11:01:48 WARN In-memory sort operation triggered
+2025-05-02 11:01:52 WARN Increased active session count
+2025-05-02 11:01:57 WARN Detected slow-running SQL query
+2025-05-02 11:02:01 WARN PGA memory usage approaching limit
+2025-05-02 11:02:03 DEBUG Generating session report
+2025-05-02 11:02:07 WARN PGA memory usage approaching limit
+2025-05-02 11:02:08 WARN CPU usage exceeded 70%
+2025-05-02 11:02:13 ERROR System slow response due to high load
+2025-05-02 11:02:14 ERROR Application response time breach detected
+2025-05-02 11:02:17 ERROR Application response time breach detected
+2025-05-02 11:02:20 ERROR System slow response due to high load
+2025-05-02 11:02:25 ERROR Unable to process request: ORA-04030
+2025-05-02 11:02:27 ERROR System slow response due to high load
+2025-05-02 11:02:31 ERROR Application response time breach detected
+2025-05-02 11:02:34 ERROR System slow response due to high load
+2025-05-02 11:02:35 ERROR System slow response due to high load
+2025-05-02 11:02:38 WARN PGA memory usage approaching limit

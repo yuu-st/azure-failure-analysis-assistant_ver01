@@ -15,5 +15,4 @@ parameter.ts
 local.settings.json
 local_storage_local.settings.json
 
-data
 dist

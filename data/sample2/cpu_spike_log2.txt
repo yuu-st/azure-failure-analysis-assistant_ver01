@@ -1,0 +1,50 @@
+2025-05-02 10:00:00 INFO User session started
+2025-05-02 10:00:02 INFO Periodic health check OK
+2025-05-02 10:00:04 INFO Periodic health check OK
+2025-05-02 10:00:08 INFO Completed scheduled task
+2025-05-02 10:00:12 DEBUG Reading 10,000 rows from result set
+2025-05-02 10:00:13 INFO User session started
+2025-05-02 10:00:15 DEBUG Parsing complex JSON input
+2025-05-02 10:00:17 DEBUG Executing SQL on large_table
+2025-05-02 10:00:22 DEBUG Batch loop iteration completed
+2025-05-02 10:00:26 INFO Periodic health check OK
+2025-05-02 10:00:28 INFO Started batch process
+2025-05-02 10:00:31 DEBUG Generating session report
+2025-05-02 10:00:36 INFO Completed scheduled task
+2025-05-02 10:00:39 INFO Completed scheduled task
+2025-05-02 10:00:42 INFO Connected to Oracle DB
+2025-05-02 10:00:47 DEBUG Batch loop iteration completed
+2025-05-02 10:00:48 DEBUG Executing SQL on large_table
+2025-05-02 10:00:52 INFO Started batch process
+2025-05-02 10:00:54 INFO User session started
+2025-05-02 10:00:59 INFO User session started
+2025-05-02 10:01:03 INFO User session started
+2025-05-02 10:01:05 INFO Started batch process
+2025-05-02 10:01:06 DEBUG Parsing complex JSON input
+2025-05-02 10:01:08 INFO Started batch process
+2025-05-02 10:01:12 INFO Started batch process
+2025-05-02 10:01:13 WARN PGA memory usage approaching limit
+2025-05-02 10:01:15 WARN PGA memory usage approaching limit
+2025-05-02 10:01:17 WARN In-memory sort operation triggered
+2025-05-02 10:01:21 WARN In-memory sort operation triggered
+2025-05-02 10:01:22 DEBUG Parsing complex JSON input
+2025-05-02 10:01:23 WARN Detected slow-running SQL query
+2025-05-02 10:01:25 WARN CPU usage exceeded 70%
+2025-05-02 10:01:30 DEBUG Batch loop iteration completed
+2025-05-02 10:01:33 WARN PGA memory usage approaching limit
+2025-05-02 10:01:34 WARN CPU usage exceeded 70%
+2025-05-02 10:01:35 WARN Increased active session count
+2025-05-02 10:01:37 WARN PGA memory usage approaching limit
+2025-05-02 10:01:38 WARN In-memory sort operation triggered
+2025-05-02 10:01:39 WARN CPU usage exceeded 70%
+2025-05-02 10:01:42 WARN Detected slow-running SQL query
+2025-05-02 10:01:45 ERROR Application response time breach detected
+2025-05-02 10:01:46 ERROR Application response time breach detected
+2025-05-02 10:01:51 ERROR CPU usage at 99%, critical threshold reached
+2025-05-02 10:01:55 ERROR Application response time breach detected
+2025-05-02 10:01:57 ERROR Unable to process request: ORA-04030
+2025-05-02 10:02:00 ERROR Application response time breach detected
+2025-05-02 10:02:05 ERROR Process terminated: resource exhaustion
+2025-05-02 10:02:08 ERROR Unable to process request: ORA-04030
+2025-05-02 10:02:12 ERROR Process terminated: resource exhaustion
+2025-05-02 10:02:13 ERROR Unable to process request: ORA-04030
